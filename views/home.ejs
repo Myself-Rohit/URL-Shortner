@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Short Url</title>
+		<style>
+			* {
+				font-family: Tahoma, Geneva, Verdana, sans-serif;
+			}
+			th,
+			td {
+				border: 1px solid rgb(128, 178, 207);
+				padding: 3px 10px;
+				color: rgb(74, 79, 83);
+			}
+			td {
+				font-size: smaller;
+			}
+			form {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 5px;
+				width: 80vw;
+			}
+			form > div {
+				min-width: 100%;
+			}
+
+			input {
+				min-width: 100%;
+				padding: 1px 2px;
+			}
+			.title {
+				text-align: center;
+			}
+			button {
+				background: rgb(138, 17, 218);
+				display: inline-block;
+				border: none;
+				color: aliceblue;
+				padding: 5px 10px;
+				border-radius: 5px;
+			}
+			table {
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1 class="title">URL Shortner</h1>
+		<% if (locals.id) { %>
+		<p>
+			url Generated :
+			<a href="" target="_blank">http://localhost:8000/<%= id %></a>
+		</p>
+		<% } %>
+		<form onsubmit="handleSubmit()">
+			<div>
+				<label>original url:</label>
+				<input
+					onchange="handleChange(event)"
+					type="text"
+					name="url"
+					placeholder="https://example@gmail.com"
+				/>
+			</div>
+			<div>
+				<label>url name:</label>
+				<input
+					onchange="handleChange(event)"
+					type="text"
+					name="urlname"
+					placeholder="example"
+				/>
+			</div>
+			<button type="submit">Generate</button>
+		</form>
+		<% if (locals.url) { %>
+		<table>
+			<thead>
+				<th>S. No</th>
+				<th>Name</th>
+				<th>Redirect</th>
+				<th>Short Url</th>
+				<th>Clicks</th>
+				<th>Delete</th>
+			</thead>
+			<tbody>
+				<% url.forEach((url,index) => { %>
+				<tr>
+					<td><%= index+1 %></td>
+					<td><%= url.urlname %></td>
+					<td><%= url.redirectUrl %></td>
+					<td>
+						<a href="http://localhost:8000/<%= url.shortId %>" target="_blank"
+							>http://localhost:8000/<%= url.shortId %></a
+						>
+					</td>
+					<td><%= url.visitHistory.length %></td>
+					<td>
+						<img
+							onclick="handleClick('<%= url.shortId %>')"
+							src="https://img.icons8.com/?size=24&id=84386&format=png"
+						/>
+					</td>
+				</tr>
+				<% }) %>
+			</tbody>
+		</table>
+		<% } %>
+		<script>
+			let formData = { url: "", urlname: "" };
+			const handleChange = (e) => {
+				formData = { ...formData, [e.target.name]: e.target.value };
+			};
+
+			const handleSubmit = async () => {
+				const res = await fetch(`http://localhost:8000/`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				});
+				if (res.ok) window.location.reload();
+			};
+
+			const handleClick = async (id) => {
+				const res = await fetch(`http://localhost:8000/${id}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ shortId: id }),
+				});
+				if (res.ok) window.location.reload();
+			};
+		</script>
+	</body>
+</html>

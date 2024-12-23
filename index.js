@@ -3,9 +3,12 @@ import mongoose from "mongoose";
 import path from "path";
 import staticRoute from "./routes/static.route.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
+app.use(cors());
+
 const PORT = process.env.PORT || 8001;
 mongoose
 	.connect(process.env.MONGO_URI)

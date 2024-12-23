@@ -54,7 +54,9 @@
 		<% if (locals.id) { %>
 		<p>
 			url Generated :
-			<a href="" target="_blank">http://localhost:8000/<%= id %></a>
+			<a href="" target="_blank"
+				>https://url-shortner-evbp.onrender.com/<%= id %></a
+			>
 		</p>
 		<% } %>
 		<form onsubmit="handleSubmit()">
@@ -95,8 +97,10 @@
 					<td><%= url.urlname %></td>
 					<td><%= url.redirectUrl %></td>
 					<td>
-						<a href="http://localhost:8000/<%= url.shortId %>" target="_blank"
-							>http://localhost:8000/<%= url.shortId %></a
+						<a
+							href="https://url-shortner-evbp.onrender.com/<%= url.shortId %>"
+							target="_blank"
+							>https://url-shortner-evbp.onrender.com/<%= url.shortId %></a
 						>
 					</td>
 					<td><%= url.visitHistory.length %></td>
@@ -118,7 +122,7 @@
 			};
 
 			const handleSubmit = async () => {
-				const res = await fetch(`http://localhost:8000/`, {
+				const res = await fetch(`https://url-shortner-evbp.onrender.com/`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -129,13 +133,16 @@
 			};
 
 			const handleClick = async (id) => {
-				const res = await fetch(`http://localhost:8000/${id}`, {
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ shortId: id }),
-				});
+				const res = await fetch(
+					`https://url-shortner-evbp.onrender.com/${id}`,
+					{
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ shortId: id }),
+					}
+				);
 				if (res.ok) window.location.reload();
 			};
 		</script>

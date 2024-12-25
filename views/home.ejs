@@ -42,6 +42,9 @@
 				color: aliceblue;
 				padding: 5px 10px;
 				border-radius: 5px;
+				&:active {
+					transform: scale(90%);
+				}
 			}
 			table {
 				margin-top: 20px;
@@ -59,7 +62,7 @@
 			>
 		</p>
 		<% } %>
-		<form onsubmit="handleSubmit()">
+		<form onsubmit="handleSubmit(event)">
 			<div>
 				<label>original url:</label>
 				<input
@@ -121,28 +124,28 @@
 				formData = { ...formData, [e.target.name]: e.target.value };
 			};
 
-			const handleSubmit = async () => {
-				const res = await fetch(`https://url-shortner-evbp.onrender.com/`, {
+			const handleSubmit = async (e) => {
+				e.preventDefault();
+				const res = await fetch(`http://localhost:8000/`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify(formData),
 				});
-				if (res.ok) window.location.reload();
+				if (res.ok) {
+					window.location.reload();
+				}
 			};
 
 			const handleClick = async (id) => {
-				const res = await fetch(
-					`https://url-shortner-evbp.onrender.com/${id}`,
-					{
-						method: "DELETE",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({ shortId: id }),
-					}
-				);
+				const res = await fetch(`http://localhost:8000/${id}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ shortId: id }),
+				});
 				if (res.ok) window.location.reload();
 			};
 		</script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form onsubmit="handleSubmit(event)">
+			<input
+				name="email"
+				onchange="handleChange(event)"
+				type="text"
+				placeholder="email"
+			/>
+			<input
+				name="password"
+				onchange="handleChange(event)"
+				type="text"
+				placeholder="password"
+			/>
+			<button type="submit">Sign In</button>
+		</form>
+		<script>
+			let formData = { email: "", password: "" };
+			const handleChange = (e) => {
+				formData = { ...formData, [e.target.name]: e.target.value };
+			};
+			const handleSubmit = async (e) => {
+				e.preventDefault();
+				const res = await fetch(`http://localhost:8000/api/auth/signin`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				});
+				if (res.ok) {
+					window.location = "http://localhost:8000/";
+				}
+			};
+		</script>
+	</body>
+</html>

@@ -17,6 +17,7 @@ const urlSchema = new mongoose.Schema(
 			required: true,
 		},
 		visitHistory: [{ timestamps: { type: Number } }],
+		userId: { type: mongoose.Schema.Types.ObjectId },
 	},
 	{ timestamps: true }
 );

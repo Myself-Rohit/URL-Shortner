@@ -126,7 +126,7 @@
 
 			const handleSubmit = async (e) => {
 				e.preventDefault();
-				const res = await fetch(`http://localhost:8000/`, {
+				const res = await fetch(`https://url-shortner-evbp.onrender.com/`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -139,7 +139,7 @@
 			};
 
 			const handleClick = async (id) => {
-				const res = await fetch(`http://localhost:8000/${id}`, {
+				const res = await fetch(`https://url-shortner-evbp.onrender.com/${id}`, {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json",

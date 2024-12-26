@@ -4,23 +4,100 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			}
+
+			.form-container {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+				padding: 20px;
+				background-color: rgb(226, 226, 226);
+			}
+			.form-container > form {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				box-shadow: 2px 2px 5px gray;
+				padding: 20px;
+				border-radius: 20px;
+				background: white;
+			}
+			label {
+				font-size: small;
+			}
+			input {
+				border-radius: 5px;
+				border: 2px solid rgb(193, 193, 206);
+				font-size: small;
+				display: block;
+				width: 100%;
+				padding: 4px;
+
+				&:focus {
+					outline: 1px solid rgb(187, 117, 228);
+				}
+			}
+
+			button {
+				padding: 10px;
+				border: none;
+				border-radius: 5px;
+				color: aliceblue;
+				width: 100%;
+				background: rgb(114, 21, 151);
+				&:active {
+					transform: scaleY(0.9);
+				}
+			}
+			span {
+				margin: auto;
+				font-size: small;
+				color: rgb(167, 162, 162);
+			}
+			.error {
+				color: rgb(226, 60, 60);
+			}
+		</style>
 	</head>
 	<body>
-		<form onsubmit="handleSubmit(event)">
-			<input
-				name="email"
-				onchange="handleChange(event)"
-				type="text"
-				placeholder="email"
-			/>
-			<input
-				name="password"
-				onchange="handleChange(event)"
-				type="text"
-				placeholder="password"
-			/>
-			<button type="submit">Sign In</button>
-		</form>
+		<div class="form-container">
+			<p class="error">Error</p>
+			<form onsubmit="handleSubmit(event)">
+				<h1>Login to your account</h1>
+				<div>
+					<label name="email">Email:</label>
+					<input
+						name="email"
+						onchange="handleChange(event)"
+						type="text"
+						placeholder="example@gmail.com"
+					/>
+				</div>
+				<div>
+					<label name="password">Password:</label>
+					<input
+						name="password"
+						onchange="handleChange(event)"
+						type="text"
+						placeholder="Enter your password"
+					/>
+				</div>
+				<button type="submit">Sign In</button>
+				<span
+					>Don't have an account?
+					<a href="https://url-shortner-evbp.onrender.com/signup"
+						>Sign up</a
+					></span
+				>
+			</form>
+		</div>
 		<script>
 			let formData = { email: "", password: "" };
 			const handleChange = (e) => {
@@ -28,15 +105,18 @@
 			};
 			const handleSubmit = async (e) => {
 				e.preventDefault();
-				const res = await fetch(`http://localhost:8000/api/auth/signin`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(formData),
-				});
+				const res = await fetch(
+					`https://url-shortner-evbp.onrender.com/api/auth/signin`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(formData),
+					}
+				);
 				if (res.ok) {
-					window.location = "http://localhost:8000/";
+					window.location = "https://url-shortner-evbp.onrender.com/";
 				}
 			};
 		</script>

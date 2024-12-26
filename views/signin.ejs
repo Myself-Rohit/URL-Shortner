@@ -21,6 +21,7 @@
 				background-color: rgb(226, 226, 226);
 			}
 			.form-container > form {
+				position: relative;
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
@@ -62,18 +63,27 @@
 				color: rgb(167, 162, 162);
 			}
 			.error {
-				color: rgb(226, 60, 60);
+				display: none;
+				position: absolute;
+				bottom: 105%;
+				text-align: center;
+				left: 50%;
+				transform: translateX(-50%);
+				color: rgb(185, 53, 53);
+				padding: 5px 10px;
+				border-radius: 5px;
+				background-color: rgb(255, 172, 172);
 			}
 		</style>
 	</head>
 	<body>
 		<div class="form-container">
-			<p class="error">Error</p>
 			<form onsubmit="handleSubmit(event)">
 				<h1>Login to your account</h1>
 				<div>
-					<label name="email">Email:</label>
+					<label for="email">Email:</label>
 					<input
+						id="email"
 						name="email"
 						onchange="handleChange(event)"
 						type="text"
@@ -81,8 +91,9 @@
 					/>
 				</div>
 				<div>
-					<label name="password">Password:</label>
+					<label for="password">Password:</label>
 					<input
+						id="password"
 						name="password"
 						onchange="handleChange(event)"
 						type="text"
@@ -96,27 +107,53 @@
 						>Sign up</a
 					></span
 				>
+				<p class="error"></p>
 			</form>
 		</div>
 		<script>
+			function isError() {
+				const email = document.querySelector("#email");
+				const password = document.querySelector("#password");
+
+				if (!email.value || !password.value) {
+					return "All fields required";
+				}
+				if (password.value.length < 6) {
+					return "Password must be at lest 6 characters";
+				}
+				return "";
+			}
+			function showError(message) {
+				document.querySelector(".error").innerHTML = message;
+				document.querySelector(".error").style.display = "block";
+			}
 			let formData = { email: "", password: "" };
 			const handleChange = (e) => {
 				formData = { ...formData, [e.target.name]: e.target.value };
 			};
 			const handleSubmit = async (e) => {
 				e.preventDefault();
-				const res = await fetch(
-					`https://url-shortner-evbp.onrender.com/api/auth/signin`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(formData),
+				try {
+					if (isError()) {
+						throw new Error(isError());
 					}
-				);
-				if (res.ok) {
-					window.location = "https://url-shortner-evbp.onrender.com/";
+					const res = await fetch(
+						`https://url-shortner-evbp.onrender.com/api/auth/signin`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(formData),
+						}
+					);
+					if (res.ok) {
+						window.location = "https://url-shortner-evbp.onrender.com/";
+					} else {
+						showError("Invalid email or password");
+					}
+				} catch (error) {
+					showError(error);
 				}
 			};
 		</script>

@@ -54,12 +54,11 @@
 
 	<body>
 		<h1 class="title">URL Shortner</h1>
+		<button onclick="logout()">Log Out</button>
 		<% if (locals.id) { %>
 		<p>
 			url Generated :
-			<a href="" target="_blank"
-				>https://url-shortner-evbp.onrender.com/<%= id %></a
-			>
+			<a href="" target="_blank">http://localhost:8000/<%= id %></a>
 		</p>
 		<% } %>
 		<form onsubmit="handleSubmit(event)">
@@ -100,10 +99,8 @@
 					<td><%= url.urlname %></td>
 					<td><%= url.redirectUrl %></td>
 					<td>
-						<a
-							href="https://url-shortner-evbp.onrender.com/<%= url.shortId %>"
-							target="_blank"
-							>https://url-shortner-evbp.onrender.com/<%= url.shortId %></a
+						<a href="http://localhost:8000/<%= url.shortId %>" target="_blank"
+							>http://localhost:8000/<%= url.shortId %></a
 						>
 					</td>
 					<td><%= url.visitHistory.length %></td>
@@ -126,7 +123,7 @@
 
 			const handleSubmit = async (e) => {
 				e.preventDefault();
-				const res = await fetch(`https://url-shortner-evbp.onrender.com/`, {
+				const res = await fetch(`http://localhost:8000/`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -139,7 +136,7 @@
 			};
 
 			const handleClick = async (id) => {
-				const res = await fetch(`https://url-shortner-evbp.onrender.com/${id}`, {
+				const res = await fetch(`http://localhost:8000/${id}`, {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json",
@@ -147,6 +144,17 @@
 					body: JSON.stringify({ shortId: id }),
 				});
 				if (res.ok) window.location.reload();
+			};
+			const logout = async () => {
+				const res = await fetch(`http://localhost:8000/api/auth/signout`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+				if (res.ok) {
+					window.location.reload();
+				}
 			};
 		</script>
 	</body>

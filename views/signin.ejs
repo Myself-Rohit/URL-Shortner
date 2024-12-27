@@ -103,7 +103,9 @@
 				<button type="submit">Sign In</button>
 				<span
 					>Don't have an account?
-					<a href="http://localhost:8000/signup">Sign up</a></span
+					<a href="https://url-shortner-f642.onrender.com/signup"
+						>Sign up</a
+					></span
 				>
 				<p class="error"></p>
 			</form>
@@ -135,15 +137,18 @@
 					if (isError()) {
 						throw new Error(isError());
 					}
-					const res = await fetch(`http://localhost:8000/api/auth/signin`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(formData),
-					});
+					const res = await fetch(
+						`https://url-shortner-f642.onrender.com/api/auth/signin`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(formData),
+						}
+					);
 					if (res.ok) {
-						window.location = "http://localhost:8000/";
+						window.location = "https://url-shortner-f642.onrender.com/";
 					} else {
 						showError("Invalid email or password");
 					}

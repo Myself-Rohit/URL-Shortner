@@ -157,7 +157,9 @@
 		<% if (locals.id) { %>
 		<p>
 			URL Generated:
-			<a href="" target="_blank">http://localhost:8000/<%= id %></a>
+			<a href="" target="_blank"
+				>https://url-shortner-f642.onrender.com/<%= id %></a
+			>
 		</p>
 		<% } %>
 
@@ -208,7 +210,7 @@
 							href="#"
 							onclick="copyToClipboard('<%= url.shortId %>')"
 							title="Click to copy"
-							>http://localhost:8000/<%= url.shortId %></a
+							>https://url-shortner-f642.onrender.com/<%= url.shortId %></a
 						>
 					</td>
 					<td><%= url.visitHistory.length %></td>
@@ -234,7 +236,7 @@
 
 			const handleSubmit = async (e) => {
 				e.preventDefault();
-				const res = await fetch(`http://localhost:8000/`, {
+				const res = await fetch(`https://url-shortner-f642.onrender.com/`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -247,19 +249,22 @@
 			};
 
 			const handleClick = async (id) => {
-				const res = await fetch(`http://localhost:8000/${id}`, {
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ shortId: id }),
-				});
+				const res = await fetch(
+					`https://url-shortner-f642.onrender.com/${id}`,
+					{
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ shortId: id }),
+					}
+				);
 				if (res.ok) window.location.reload();
 			};
 
 			const copyToClipboard = (shortId) => {
 				navigator.clipboard
-					.writeText(`http://localhost:8000/${shortId}`)
+					.writeText(`https://url-shortner-f642.onrender.com/${shortId}`)
 					.then(() => {
 						alert("Copied to clipboard!");
 					})
@@ -269,12 +274,15 @@
 			};
 
 			const logout = async () => {
-				const res = await fetch(`http://localhost:8000/api/auth/signout`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				});
+				const res = await fetch(
+					`https://url-shortner-f642.onrender.com/api/auth/signout`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
 				if (res.ok) {
 					window.location.reload();
 				}

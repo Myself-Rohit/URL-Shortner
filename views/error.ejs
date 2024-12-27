@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -37,6 +37,82 @@
 			<h3>
 				please
 				<a href="http://localhost:8000/signin">sign In</a> to your account
+			</h3>
+		</div>
+	</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Unauthorized User</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: "Arial", sans-serif;
+			}
+			body {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				background: linear-gradient(135deg, #9b59b6, #8e44ad);
+				color: #fff;
+				text-align: center;
+			}
+			.container {
+				background: rgba(255, 255, 255, 0.1);
+				padding: 30px 40px;
+				border-radius: 10px;
+				box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+				backdrop-filter: blur(10px);
+			}
+			h1 {
+				font-size: 2rem;
+				margin-bottom: 10px;
+			}
+			h3 {
+				font-size: 1.2rem;
+				margin-bottom: 20px;
+			}
+			a {
+				display: inline-block;
+				background: #fff;
+				color: #8e44ad;
+				padding: 10px 20px;
+				text-decoration: none;
+				border-radius: 5px;
+				font-weight: bold;
+				transition: 0.3s;
+			}
+			a:hover {
+				background: #8e44ad;
+				color: #fff;
+			}
+			/* Responsive Design */
+			@media (max-width: 480px) {
+				.container {
+					padding: 20px;
+				}
+				h1 {
+					font-size: 1.5rem;
+				}
+				h3 {
+					font-size: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Unauthorized Access</h1>
+			<h3>
+				Please <a href="http://localhost:8000/signin">Sign In</a> to access your
+				account
 			</h3>
 		</div>
 	</body>

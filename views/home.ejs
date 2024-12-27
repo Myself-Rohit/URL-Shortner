@@ -7,73 +7,175 @@
 		<style>
 			* {
 				font-family: Tahoma, Geneva, Verdana, sans-serif;
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
 			}
-			th,
-			td {
-				border: 1px solid rgb(128, 178, 207);
-				padding: 3px 10px;
-				color: rgb(74, 79, 83);
+			body {
+				background-color: #f9f9fb;
 			}
-			td {
-				font-size: smaller;
+
+			.header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background-color: #8a11da;
+				color: white;
+				padding: 15px 20px;
+				margin-bottom: 20px;
 			}
+
+			.title {
+				font-size: 1.5rem;
+			}
+
+			.logout-btn {
+				background: white;
+				color: #8a11da;
+				border: 1px solid #8a11da;
+				padding: 8px 16px;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 0.9rem;
+				transition: 0.3s;
+			}
+
+			.logout-btn:hover {
+				background: transparent;
+				border: 1px solid white;
+				color: white;
+				box-shadow: 2px 2px 5px rgb(189, 189, 189);
+			}
+
 			form {
 				display: flex;
 				flex-direction: column;
-				align-items: start;
-				gap: 5px;
-				width: 80vw;
+				gap: 15px;
+				width: 100%;
+				max-width: 600px;
+				margin: 0 auto;
+				background: white;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 			}
-			form > div {
-				min-width: 100%;
+
+			label {
+				font-size: 0.9rem;
+				color: #4a4f53;
+				margin-bottom: 5px;
 			}
 
 			input {
-				min-width: 100%;
-				padding: 1px 2px;
-			}
-			.title {
-				text-align: center;
-			}
-			button {
-				background: rgb(138, 17, 218);
-				display: inline-block;
-				border: none;
-				color: aliceblue;
-				padding: 5px 10px;
+				width: 100%;
+				padding: 10px;
+				border: 1px solid #80b2cf;
 				border-radius: 5px;
-				&:active {
-					transform: scale(90%);
-				}
+				font-size: 1rem;
+				color: #4a4f53;
 			}
+
+			button {
+				background: #9a79b1;
+				border: none;
+				color: white;
+				padding: 10px 20px;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: 0.3s;
+				font-size: 1rem;
+			}
+
+			button:hover {
+				background: #7214c4;
+				box-shadow: 2px 2px 5px rgb(83, 83, 83);
+			}
+
 			table {
-				margin-top: 20px;
+				margin: 20px auto;
+				width: 95%;
+				border-collapse: collapse;
+				background: white;
+				border-radius: 8px;
+				overflow: hidden;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			th,
+			td {
+				border: 1px solid #e1e5eb;
+				padding: 12px;
+				text-align: left;
+				color: #4a4f53;
+				font-size: 0.9rem;
+			}
+
+			th {
+				background-color: #f4f6f8;
+				color: #333;
+			}
+
+			a {
+				color: #8a11da;
+				text-decoration: none;
+				font-size: 0.9rem;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			img {
+				cursor: pointer;
+			}
+
+			/* Responsive Design */
+			@media (max-width: 370px) {
+				.header {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 10px;
+				}
+
+				form {
+					padding: 15px;
+				}
+
+				table {
+					font-size: 0.8rem;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<h1 class="title">URL Shortner</h1>
-		<button onclick="logout()">Log Out</button>
+		<div class="header">
+			<h1 class="title">URL Shortener</h1>
+			<button class="logout-btn" onclick="logout()">Log Out</button>
+		</div>
+
 		<% if (locals.id) { %>
 		<p>
-			url Generated :
+			URL Generated:
 			<a href="" target="_blank">http://localhost:8000/<%= id %></a>
 		</p>
 		<% } %>
+
 		<form onsubmit="handleSubmit(event)">
 			<div>
-				<label>original url:</label>
+				<label for="url">Original URL:</label>
 				<input
+					id="url"
 					onchange="handleChange(event)"
 					type="text"
 					name="url"
-					placeholder="https://example@gmail.com"
+					placeholder="https://example.com"
 				/>
 			</div>
 			<div>
-				<label>url name:</label>
+				<label for="urlname">URL Name:</label>
 				<input
+					id="urlname"
 					onchange="handleChange(event)"
 					type="text"
 					name="urlname"
@@ -82,24 +184,30 @@
 			</div>
 			<button type="submit">Generate</button>
 		</form>
+
 		<% if (locals.url) { %>
 		<table>
 			<thead>
-				<th>S. No</th>
-				<th>Name</th>
-				<th>Redirect</th>
-				<th>Short Url</th>
-				<th>Clicks</th>
-				<th>Delete</th>
+				<tr>
+					<th>S. No</th>
+					<th>Name</th>
+					<th>Redirect</th>
+					<th>Short URL</th>
+					<th>Clicks</th>
+					<th>Delete</th>
+				</tr>
 			</thead>
 			<tbody>
-				<% url.forEach((url,index) => { %>
+				<% url.forEach((url, index) => { %>
 				<tr>
-					<td><%= index+1 %></td>
+					<td><%= index + 1 %></td>
 					<td><%= url.urlname %></td>
 					<td><%= url.redirectUrl %></td>
 					<td>
-						<a href="http://localhost:8000/<%= url.shortId %>" target="_blank"
+						<a
+							href="#"
+							onclick="copyToClipboard('<%= url.shortId %>')"
+							title="Click to copy"
 							>http://localhost:8000/<%= url.shortId %></a
 						>
 					</td>
@@ -108,6 +216,7 @@
 						<img
 							onclick="handleClick('<%= url.shortId %>')"
 							src="https://img.icons8.com/?size=24&id=84386&format=png"
+							alt="Delete"
 						/>
 					</td>
 				</tr>
@@ -115,8 +224,10 @@
 			</tbody>
 		</table>
 		<% } %>
+
 		<script>
 			let formData = { url: "", urlname: "" };
+
 			const handleChange = (e) => {
 				formData = { ...formData, [e.target.name]: e.target.value };
 			};
@@ -145,6 +256,18 @@
 				});
 				if (res.ok) window.location.reload();
 			};
+
+			const copyToClipboard = (shortId) => {
+				navigator.clipboard
+					.writeText(`http://localhost:8000/${shortId}`)
+					.then(() => {
+						alert("Copied to clipboard!");
+					})
+					.catch((err) => {
+						console.error("Failed to copy: ", err);
+					});
+			};
+
 			const logout = async () => {
 				const res = await fetch(`http://localhost:8000/api/auth/signout`, {
 					method: "POST",
